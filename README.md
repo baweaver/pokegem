@@ -4,7 +4,7 @@ Simple to use, with basic caching
 
 Resources:
 ```
-pokedex_id, pokemon, pokemon_id, move_id, ability_id, type_id, egg_id, description_id, sprite_id, game_id
+pokedex, pokemon, pokemon, move, ability, type, egg, description, sprite, game
 ```
 
 ## Usage
