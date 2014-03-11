@@ -1,6 +1,8 @@
 # Pokegem
 
-Simple to use, with basic caching
+http://pokeapi.co/
+
+Simple to use wrapper for the pokeapi, with basic caching
 
 Resources:
 ```
