@@ -23,6 +23,7 @@ Pokegem.get_obj "type", 10  # => Object containing Fire type's data
 
 ## Pokéapi v2
 According to Pokéapi's creator, Paul Hallet, v1 will be deprecated in January 2015 (http://phalt.co/if-you-have-data-they-will-consume-it/).
+
 After release of v2, this gem will be updated to match the new API.
 
 ## Contributing
