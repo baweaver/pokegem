@@ -5,7 +5,7 @@ require 'json'
 module Pokegem
   class << self
     BASE_URL  = 'http://pokeapi.co/api/v1'
-    RESOURCES = %w(pokedex pokemon pokemon move ability type egg description sprite game)
+    RESOURCES = %w(pokedex pokemon move ability type egg description sprite game)
 
     def init_hash; RESOURCES.reduce({}) { |h, r| h.merge! r => {} } end
 
