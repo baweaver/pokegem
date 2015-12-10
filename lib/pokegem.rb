@@ -10,12 +10,14 @@ module Pokegem
     def init_hash; RESOURCES.reduce({}) { |h, r| h.merge! r => {} } end
 
     def get(resource, n)
+      resource = resource.to_s
       raise "Invalid resource, select from #{RESOURCES.join(', ')}" unless RESOURCES.include?(resource)
       (@cache ||= init_hash)[resource][n] ||=
         Typhoeus.get("#{BASE_URL}/#{resource}/#{n}", followlocation: true).options[:response_body]
     end
 
     def get_obj(resource, n)
+      resource = resource.to_s
       (@obj_cache ||= init_hash)[resource][n] ||= OpenStruct.new(JSON.parse(get(resource, n)))
     end
   end
