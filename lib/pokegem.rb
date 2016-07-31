@@ -86,10 +86,6 @@ module Pokegem
     API_VERSIONS = RESOURCES.keys
     DEFAULT_API_VERSION = API_VERSIONS.last # Set last configured API as default
 
-    def resources_hash
-      @resource_hash ||= RESOURCES.each { |k,v| RESOURCES[k] = Hash[v.map { |r| [r, {}] }] }
-    end
-
     def get(resource, n = nil, **params)
       resource = resource.to_s
       api_version = (params[:api_version] || DEFAULT_API_VERSION).to_s
@@ -116,7 +112,7 @@ module Pokegem
       end
 
       def is_resource_valid_for_api?(resource, api_version)
-        resources_hash[api_version].keys.include?(resource)
+        RESOURCES[api_version].include?(resource)
       end
 
       def check_api_version!(api_version)
@@ -124,7 +120,7 @@ module Pokegem
       end
 
       def check_resource!(resource, api_version)
-        raise "Invalid resource, select from #{resources_hash[api_version].keys.join(', ')}" unless is_resource_valid_for_api?(resource, api_version)
+        raise "Invalid resource, select from #{RESOURCES[api_version].keys.join(', ')}" unless is_resource_valid_for_api?(resource, api_version)
       end
   end
 end
