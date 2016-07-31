@@ -1,8 +1,23 @@
 require 'pokegem/version'
 require 'typhoeus'
 require 'json'
+require 'uri'
 
 module Pokegem
+  class Cache
+    def initialize
+      @memory = {}
+    end
+
+    def get(request)
+      @memory[request]
+    end
+
+    def set(request, response)
+      @memory[request] = response
+    end
+  end
+
   class << self
     BASE_URL  = 'http://pokeapi.co/api'
     RESOURCES = {
@@ -75,25 +90,24 @@ module Pokegem
       @resource_hash ||= RESOURCES.each { |k,v| RESOURCES[k] = Hash[v.map { |r| [r, {}] }] }
     end
 
-    def get(resource, n, **params)
+    def get(resource, n = nil, **params)
       resource = resource.to_s
       api_version = (params[:api_version] || DEFAULT_API_VERSION).to_s
 
       check_api_version!(api_version)
       check_resource!(resource, api_version)
 
-      (@cache ||= resources_hash)[api_version][resource][n] ||=
-        Typhoeus.get("#{BASE_URL}/#{api_version}/#{resource}/#{n}", followlocation: true).options[:response_body]
+      request_parameters = URI.encode_www_form(params.reject { |k| k == :api_version } || {})
+
+      Typhoeus::Config.cache ||= Cache.new
+      Typhoeus.get("#{BASE_URL}/#{api_version}/#{resource}/#{n}?#{request_parameters}", followlocation: true).options[:response_body]
     end
 
-    def get_obj(resource, n, **params)
+    def get_obj(resource, n = nil, **params)
       resource = resource.to_s
       api_version = (params[:api_version] || DEFAULT_API_VERSION).to_s
 
-      check_api_version!(api_version)
-      check_resource!(resource, api_version)
-
-      (@obj_cache ||= resources_hash)[api_version][resource][n] ||= OpenStruct.new(JSON.parse(get(resource, n, params)))
+      OpenStruct.new(JSON.parse(get(resource, n, params)))
     end
 
     private
