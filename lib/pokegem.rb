@@ -84,7 +84,7 @@ module Pokegem
       )
     }
     API_VERSIONS = RESOURCES.keys
-    DEFAULT_API_VERSION = API_VERSIONS.last # Set last configured API as default
+    DEFAULT_API_VERSION = 'v2'
 
     def get(resource, n = nil, **params)
       resource = resource.to_s
@@ -93,7 +93,7 @@ module Pokegem
       check_api_version!(api_version)
       check_resource!(resource, api_version)
 
-      request_parameters = URI.encode_www_form(params.reject { |k| k == :api_version } || {})
+      request_parameters = URI.encode_www_form(params.reject { |k| k == :api_version })
 
       Typhoeus::Config.cache ||= Cache.new
       Typhoeus.get("#{BASE_URL}/#{api_version}/#{resource}/#{n}?#{request_parameters}", followlocation: true).options[:response_body]
