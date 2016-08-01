@@ -93,7 +93,7 @@ module Pokegem
       check_api_version!(api_version)
       check_resource!(resource, api_version)
 
-      request_parameters = URI.encode_www_form(params.reject { |k| k == :api_version } || {})
+      request_parameters = URI.encode_www_form(params.reject { |k| k == :api_version })
 
       Typhoeus::Config.cache ||= Cache.new
       Typhoeus.get("#{BASE_URL}/#{api_version}/#{resource}/#{n}?#{request_parameters}", followlocation: true).options[:response_body]
