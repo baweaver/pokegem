@@ -84,7 +84,7 @@ module Pokegem
       )
     }
     API_VERSIONS = RESOURCES.keys
-    DEFAULT_API_VERSION = 'v2' # Set last configured API as default
+    DEFAULT_API_VERSION = 'v2'
 
     def get(resource, n = nil, **params)
       resource = resource.to_s
