@@ -84,7 +84,7 @@ module Pokegem
       )
     }
     API_VERSIONS = RESOURCES.keys
-    DEFAULT_API_VERSION = API_VERSIONS.last # Set last configured API as default
+    DEFAULT_API_VERSION = 'v2' # Set last configured API as default
 
     def resources_hash
       @resource_hash ||= RESOURCES.each { |k,v| RESOURCES[k] = Hash[v.map { |r| [r, {}] }] }
